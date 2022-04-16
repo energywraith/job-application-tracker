@@ -1,5 +1,4 @@
 # Job Application tracker for students.
-    <b>VUE APP</b>
 
 The Problem
 
