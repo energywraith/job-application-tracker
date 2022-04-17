@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   FormControl,
   FormLabel,
@@ -12,6 +13,7 @@ import Field from "components/Field";
 
 const Form = ({
   fields,
+  validationSchema,
   formWrapperProps,
   buttonProps,
   loadingText,
@@ -24,7 +26,9 @@ const Form = ({
     setError,
     clearErrors,
     formState: { isSubmitting, errors },
-  } = useForm();
+  } = useForm({
+    resolver: validationSchema ? yupResolver(validationSchema) : undefined,
+  });
 
   const handleSubmitWithMethods = handleSubmit((props) =>
     onSubmit(props, { setError, clearErrors })
@@ -44,7 +48,7 @@ const Form = ({
               type={field.type}
               name={field.name}
               inputProps={field.inputProps}
-              {...register(field.name)}
+              {...register(field.name, field.validation)}
             />
             {!errors[field.name] ? (
               <FormHelperText position="absolute" mt="1">

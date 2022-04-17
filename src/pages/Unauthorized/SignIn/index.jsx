@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Center, Box, Heading, Text } from "@chakra-ui/react";
 
 import Page from "components/Page";
-import Form from "components/Form";
 import useToken from "hooks/useToken";
 import useQuery from "hooks/useQuery";
 import useErrorsHandling from "hooks/useErrorsHandling";
+import LoginForm from "./LoginForm";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -19,29 +19,6 @@ const SignIn = () => {
       navigate("/app", { replace: true });
     }
   }, []);
-
-  const fields = [
-    {
-      name: "email",
-      type: "text",
-      inputProps: {
-        label: "Email address",
-        placeholder: "Enter email address",
-        bg: "white",
-        color: "black",
-      },
-    },
-    {
-      name: "password",
-      type: "password",
-      inputProps: {
-        label: "Password",
-        placeholder: "Enter password",
-        bg: "white",
-        color: "black",
-      },
-    },
-  ];
 
   const onSubmit = (props, methods) =>
     sendQuery("auth/login", {
@@ -78,7 +55,6 @@ const SignIn = () => {
           width={500}
           borderRadius={6}
           bg="whiteAlpha.900"
-          // bgGradient="linear(to-br, whiteAlpha.200,whiteAlpha.100)"
         >
           <Heading as="h1" size="lg">
             Sign in
@@ -86,18 +62,8 @@ const SignIn = () => {
           <Text mt={3} color="blackAlpha.800">
             Don't you have account yet? Use the registration form.
           </Text>
-          <Box mt={9}>
-            <Form
-              fields={fields}
-              loadingText="Signing in"
-              submitText="Sign in"
-              onSubmit={onSubmit}
-              buttonProps={{
-                paddingX: 6,
-                paddingY: 4,
-                boxShadow: "0 0 3px rgba(0, 0, 0, 0.2)",
-              }}
-            />
+          <Box mt={6}>
+            <LoginForm onSubmit={onSubmit} />
           </Box>
         </Box>
       </Center>
