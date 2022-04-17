@@ -1,6 +1,6 @@
 import useToken from "hooks/useToken";
 
-const baseUrl = "https://job-app-tracker-gateway.onrender.com";
+const baseUrl = process.env.REACT_APP_API_URL;
 
 const useQuery = () => {
   const { hasToken, token } = useToken();
