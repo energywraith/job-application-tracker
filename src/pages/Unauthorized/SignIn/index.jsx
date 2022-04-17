@@ -3,13 +3,21 @@ import { Center, Box, Heading, Text } from "@chakra-ui/react";
 import Page from "components/Page";
 import Form from "components/Form";
 
+import useToken from "hooks/useToken";
+import useQuery from "hooks/useQuery";
+import useErrorsHandling from "hooks/useErrorsHandling";
+
 const SignIn = () => {
+  const { setToken } = useToken();
+  const { sendQuery } = useQuery();
+  const { handleFormValidationErrors } = useErrorsHandling();
+
   const fields = [
     {
-      name: "username",
+      name: "email",
       type: "text",
       inputProps: {
-        placeholder: "Enter username",
+        placeholder: "Enter email",
         bg: "white",
       },
     },
@@ -23,12 +31,20 @@ const SignIn = () => {
     },
   ];
 
-  const onSubmit = async (props) => {
-    // Just for testing
-    const res = await fetch("https://randomuser.me/api/");
-    const { results } = await res.json();
-    console.log(results);
-  };
+  const onSubmit = (props) =>
+    sendQuery("auth/login", {
+      method: "POST",
+      body: {
+        email: props.email,
+        password: props.password,
+      },
+    })
+      .then((response) => {
+        setToken(response);
+      })
+      .catch((error) => {
+        handleFormValidationErrors(error);
+      });
 
   return (
     <Page>
