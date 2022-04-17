@@ -1,13 +1,14 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Unauthorized from "./Unauthorized";
-import Authorized from "./Authorized";
+const LazyUnauthorized = React.lazy(() => import("./Unauthorized"));
+const LazyAuthorized = React.lazy(() => import("./Authorized"));
 
 const Pages = () => {
   return (
     <Routes>
-      <Route path="/*" element={<Unauthorized />} />
-      <Route path="/app/*" element={<Authorized />} />
+      <Route path="/*" element={<LazyUnauthorized />} />
+      <Route path="/app/*" element={<LazyAuthorized />} />
     </Routes>
   );
 };

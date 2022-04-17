@@ -4,7 +4,6 @@ import { Center, Box, Heading, Text } from "@chakra-ui/react";
 
 import Page from "components/Page";
 import Form from "components/Form";
-
 import useToken from "hooks/useToken";
 import useQuery from "hooks/useQuery";
 import useErrorsHandling from "hooks/useErrorsHandling";
