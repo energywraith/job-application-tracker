@@ -37,7 +37,7 @@ const Form = ({
           <FormControl
             isInvalid={errors[field.name]}
             key={field.name}
-            mt={index !== 0 && 4}
+            mt={index !== 0 && 6}
           >
             <FormLabel htmlFor={field.name}>{field.inputProps.label}</FormLabel>
             <Field
@@ -47,9 +47,13 @@ const Form = ({
               {...register(field.name)}
             />
             {!errors[field.name] ? (
-              <FormHelperText>{field.inputProps.helperText}</FormHelperText>
+              <FormHelperText position="absolute" mt="1">
+                {field.inputProps.helperText}
+              </FormHelperText>
             ) : (
-              <FormErrorMessage>{errors[field.name]?.message}</FormErrorMessage>
+              <FormErrorMessage position="absolute" mt="1">
+                {errors[field.name]?.message}
+              </FormErrorMessage>
             )}
           </FormControl>
         ))}
