@@ -6,7 +6,7 @@ const useToken = () => {
   const getToken = () => {
     const tokenString = localStorage.getItem(LS_TOKEN_NAME);
     const userToken = JSON.parse(tokenString);
-    return userToken?.token;
+    return userToken?.token || null;
   };
 
   const [token, setToken] = useState(getToken());

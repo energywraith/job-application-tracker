@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Center, Box, Heading, Text } from "@chakra-ui/react";
 
 import Page from "components/Page";
@@ -8,9 +10,16 @@ import useQuery from "hooks/useQuery";
 import useErrorsHandling from "hooks/useErrorsHandling";
 
 const SignIn = () => {
-  const { setToken } = useToken();
+  const navigate = useNavigate();
+  const { setToken, hasToken } = useToken();
   const { sendQuery } = useQuery();
   const { handleFormValidationErrors } = useErrorsHandling();
+
+  useEffect(() => {
+    if (hasToken()) {
+      navigate("/app", { replace: true });
+    }
+  }, []);
 
   const fields = [
     {
@@ -41,6 +50,7 @@ const SignIn = () => {
     })
       .then((response) => {
         setToken(response);
+        navigate("/app", { replace: true });
       })
       .catch((error) => {
         handleFormValidationErrors(error);
