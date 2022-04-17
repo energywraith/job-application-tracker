@@ -22,12 +22,10 @@ const useQuery = () => {
       fetch(`${baseUrl}/${path}`, {
         method,
         headers: {
+          Authorization: hasToken() && `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...body,
-          token: hasToken() && token,
-        }),
+        body: JSON.stringify(body),
       })
         .then(parseJSON)
         .then((response) => {
