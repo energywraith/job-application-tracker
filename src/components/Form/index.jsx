@@ -1,5 +1,12 @@
 import { useForm } from "react-hook-form";
-import { Box, Button } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  FormErrorMessage,
+  Box,
+  Button,
+} from "@chakra-ui/react";
 
 import Field from "components/Field";
 
@@ -14,23 +21,37 @@ const Form = ({
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { isSubmitting, errors },
   } = useForm();
 
+  const handleSubmitWithMethods = handleSubmit((props) =>
+    onSubmit(props, { setError, clearErrors })
+  );
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmitWithMethods}>
       <Box display="flex" flexDirection="column" {...formWrapperProps}>
         {fields.map((field, index) => (
-          <Field
+          <FormControl
+            isInvalid={errors[field.name]}
             key={field.name}
-            type={field.type}
-            inputProps={{
-              mt: index !== 0 && 4,
-              ...field.inputProps,
-            }}
-            error={errors[field.name]}
-            {...register(field.name)}
-          />
+            mt={index !== 0 && 4}
+          >
+            <FormLabel htmlFor={field.name}>{field.inputProps.label}</FormLabel>
+            <Field
+              type={field.type}
+              name={field.name}
+              inputProps={field.inputProps}
+              {...register(field.name)}
+            />
+            {!errors[field.name] ? (
+              <FormHelperText>{field.inputProps.helperText}</FormHelperText>
+            ) : (
+              <FormErrorMessage>{errors[field.name]?.message}</FormErrorMessage>
+            )}
+          </FormControl>
         ))}
         <Button
           isLoading={isSubmitting}

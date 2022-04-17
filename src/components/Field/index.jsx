@@ -12,7 +12,6 @@ const Field = React.forwardRef((props, ref) => {
       name={props.name}
       onBlur={props.onBlur}
       onChange={props.onChange}
-      error={props.error}
       ref={ref}
     />
   );

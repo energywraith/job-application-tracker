@@ -25,21 +25,25 @@ const SignIn = () => {
       name: "email",
       type: "text",
       inputProps: {
-        placeholder: "Enter email",
+        label: "Email address",
+        placeholder: "Enter email address",
         bg: "white",
+        color: "black",
       },
     },
     {
       name: "password",
       type: "password",
       inputProps: {
+        label: "Password",
         placeholder: "Enter password",
         bg: "white",
+        color: "black",
       },
     },
   ];
 
-  const onSubmit = (props) =>
+  const onSubmit = (props, methods) =>
     sendQuery("auth/login", {
       method: "POST",
       body: {
@@ -52,26 +56,34 @@ const SignIn = () => {
         navigate("/app", { replace: true });
       })
       .catch((error) => {
-        handleFormValidationErrors(error);
+        methods.clearErrors();
+        handleFormValidationErrors(error, methods);
       });
 
   return (
     <Page>
-      <Center h="100vh">
+      <Center
+        h="100vh"
+        paddingY={10}
+        bgGradient="linear(to-tr, cyan.700, blue.800)"
+      >
         <Box
           display="flex"
           flexDirection="column"
+          justifyContent="center"
           paddingX={6}
-          paddingY={12}
-          bg="gray.50"
+          paddingTop={12}
+          paddingBottom={9}
           boxShadow="0px 0px 3px rgba(0, 0, 0, 0.2)"
           width={500}
-          borderRadius={4}
+          borderRadius={6}
+          bg="whiteAlpha.900"
+          // bgGradient="linear(to-br, whiteAlpha.200,whiteAlpha.100)"
         >
           <Heading as="h1" size="lg">
             Sign in
           </Heading>
-          <Text mt={3}>
+          <Text mt={3} color="blackAlpha.800">
             Don't you have account yet? Use the registration form.
           </Text>
           <Box mt={9}>
@@ -80,6 +92,11 @@ const SignIn = () => {
               loadingText="Signing in"
               submitText="Sign in"
               onSubmit={onSubmit}
+              buttonProps={{
+                paddingX: 6,
+                paddingY: 4,
+                boxShadow: "0 0 3px rgba(0, 0, 0, 0.2)",
+              }}
             />
           </Box>
         </Box>
