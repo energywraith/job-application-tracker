@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 
-import UnauthorizedLayout from "layouts/Unauthorized";
 import ActionLink from "components/ActionLink";
 import useToken from "hooks/useToken";
 import useQuery from "hooks/useQuery";
@@ -40,7 +39,7 @@ const SignIn = () => {
       });
 
   return (
-    <UnauthorizedLayout>
+    <>
       <Heading as="h1" size="2xl" textShadow="0.3px 0.3px 3px blackAlpha.600">
         Sign in
       </Heading>
@@ -59,7 +58,7 @@ const SignIn = () => {
           <ActionLink to="/register" textContent="Create one" />
         </Flex>
       </Heading>
-    </UnauthorizedLayout>
+    </>
   );
 };
 

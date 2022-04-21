@@ -1,5 +1,6 @@
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import useToken from "hooks/useToken";
+import UnauthorizedLayout from "layouts/Unauthorized";
 
 import SignIn from "./SignIn";
 
@@ -9,10 +10,12 @@ const Unauthorized = () => {
   const defaultRedirectPath = hasToken() ? "/app" : "/sign-in";
 
   return (
-    <Routes>
-      <Route index element={<Navigate to={defaultRedirectPath} replace />} />
-      <Route path="/sign-in" element={<SignIn />} />
-    </Routes>
+    <UnauthorizedLayout>
+      <Routes>
+        <Route index element={<Navigate to={defaultRedirectPath} replace />} />
+        <Route path="/sign-in" element={<SignIn />} />
+      </Routes>
+    </UnauthorizedLayout>
   );
 };
 
