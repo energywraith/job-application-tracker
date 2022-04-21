@@ -1,13 +1,17 @@
-import React from "react";
-import PropTypes from "prop-types";
-import map from "./map";
+import { forwardRef } from "react";
 
-const Field = React.forwardRef((props, ref) => {
+import noop from "utils/noop";
+
+import map from "./map";
+import { fieldShape } from "./index.shape";
+
+const Field = forwardRef((props, ref) => {
   const ProvidedComponent = map[props.type];
 
   return (
     <ProvidedComponent
       {...props.inputProps}
+      id={props.name}
       type={props.type}
       name={props.name}
       onBlur={props.onBlur}
@@ -17,8 +21,12 @@ const Field = React.forwardRef((props, ref) => {
   );
 });
 
-Field.propTypes = {
-  type: PropTypes.string.isRequired,
+Field.propTypes = fieldShape;
+
+Field.defaultProps = {
+  inputProps: {},
+  onBlur: noop,
+  onChange: noop,
 };
 
 export default Field;

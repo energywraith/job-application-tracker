@@ -6,10 +6,13 @@ import {
   FormHelperText,
   FormErrorMessage,
   Box,
-  Button,
 } from "@chakra-ui/react";
 
 import Field from "components/Field";
+import noop from "utils/noop";
+
+import Submit from "./Submit";
+import { formShape } from "./index.shape";
 
 const Form = ({
   fields,
@@ -61,20 +64,27 @@ const Form = ({
             )}
           </FormControl>
         ))}
-        <Button
+        <Submit
+          buttonProps={buttonProps}
           isLoading={isSubmitting}
           loadingText={loadingText}
-          mt="10"
-          colorScheme="blue"
-          type="submit"
-          alignSelf="flex-end"
-          {...buttonProps}
-        >
-          {submitText}
-        </Button>
+          submitText={submitText}
+        />
       </Box>
     </form>
   );
+};
+
+Form.propTypes = formShape;
+
+Form.defaultProps = {
+  fields: [],
+  validationSchema: undefined,
+  formWrapperProps: {},
+  buttonProps: {},
+  loadingText: "",
+  submitText: "",
+  onSubmit: noop,
 };
 
 export default Form;
