@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Center, Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 
-import Page from "components/Page";
+import UnauthorizedLayout from "layouts/Unauthorized";
+import ActionLink from "components/ActionLink";
 import useToken from "hooks/useToken";
 import useQuery from "hooks/useQuery";
 import useErrorsHandling from "hooks/useErrorsHandling";
+
 import LoginForm from "./LoginForm";
 
 const SignIn = () => {
@@ -38,36 +40,26 @@ const SignIn = () => {
       });
 
   return (
-    <Page>
-      <Center
-        h="100vh"
-        paddingY={10}
-        bgGradient="linear(to-tr, cyan.700, blue.800)"
+    <UnauthorizedLayout>
+      <Heading as="h1" size="2xl" textShadow="0.3px 0.3px 3px blackAlpha.600">
+        Sign in
+      </Heading>
+      <Box mt={9}>
+        <LoginForm onSubmit={onSubmit} />
+      </Box>
+      <Heading
+        as="h2"
+        mt={12}
+        size="sm"
+        textShadow="0.3px 0.3px 3px rgba(0, 0, 0, 0.2)"
+        color="whiteAlpha.900"
       >
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          paddingX={6}
-          paddingTop={12}
-          paddingBottom={9}
-          boxShadow="0px 0px 3px rgba(0, 0, 0, 0.2)"
-          width={500}
-          borderRadius={6}
-          bg="whiteAlpha.900"
-        >
-          <Heading as="h1" size="lg">
-            Sign in
-          </Heading>
-          <Text mt={3} color="blackAlpha.800">
-            Don't you have account yet? Use the registration form.
-          </Text>
-          <Box mt={6}>
-            <LoginForm onSubmit={onSubmit} />
-          </Box>
-        </Box>
-      </Center>
-    </Page>
+        <Flex>
+          <Text mr={1}>Don't have an account?</Text>
+          <ActionLink to="/register" textContent="Create one" />
+        </Flex>
+      </Heading>
+    </UnauthorizedLayout>
   );
 };
 

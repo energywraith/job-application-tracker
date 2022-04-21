@@ -1,6 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import useToken from "hooks/useToken";
 
+import Dashboard from "./Dashboard";
+
 const Authorized = () => {
   const { hasToken } = useToken();
 
@@ -9,7 +11,7 @@ const Authorized = () => {
       {!hasToken() && (
         <Route index element={<Navigate to="/sign-in" replace />} />
       )}
-      <Route index element={<div>Dashboard</div>} />
+      <Route index element={<Dashboard />} />
     </Routes>
   );
 };
