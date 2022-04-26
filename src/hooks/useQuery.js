@@ -17,7 +17,10 @@ const useQuery = () => {
     );
   };
 
-  const sendQuery = (path, { body = {}, method = "GET" }) =>
+  const sendQuery = (
+    path,
+    { body, method } = { body: undefined, method: "GET" }
+  ) =>
     new Promise((resolve, reject) => {
       fetch(`${baseUrl}/${path}`, {
         method,

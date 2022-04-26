@@ -4,6 +4,7 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 
 import ActionLink from "components/ActionLink";
 import useToken from "hooks/useToken";
+import useUser from "hooks/useUser";
 import useQuery from "hooks/useQuery";
 import useErrorsHandling from "hooks/useErrorsHandling";
 
@@ -12,6 +13,7 @@ import LoginForm from "./LoginForm";
 const SignIn = () => {
   const navigate = useNavigate();
   const { setToken, hasToken } = useToken();
+  const { setUser } = useUser();
   const { sendQuery } = useQuery();
   const { handleFormValidationErrors } = useErrorsHandling();
 
@@ -30,7 +32,16 @@ const SignIn = () => {
       },
     })
       .then((response) => {
-        setToken(response);
+        setToken({ token: response.token, expiresAt: response.expiresAt });
+        setUser({
+          id: response.id,
+          firstName: response.firstName,
+          lastName: response.lastName,
+          email: response.email,
+          role: response.role,
+          jobs: response.jobs,
+          companies: response.companies,
+        });
         navigate("/app", { replace: true });
       })
       .catch((error) => {

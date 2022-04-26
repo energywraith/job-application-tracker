@@ -1,6 +1,9 @@
 import formatAPIValidationMessage from "utils/formatAPIValidationMessage";
 
 const useErrorsHandling = () => {
+  // TODO: Universal errors handle
+  const handleResponseError = (_error) => {};
+
   const handleFormValidationErrors = ({ errorType, error }, methods) => {
     if (errorType === "ValidationError") {
       Object.keys(error).forEach((key) => {
@@ -12,7 +15,7 @@ const useErrorsHandling = () => {
     }
   };
 
-  return { handleFormValidationErrors };
+  return { handleResponseError, handleFormValidationErrors };
 };
 
 export default useErrorsHandling;

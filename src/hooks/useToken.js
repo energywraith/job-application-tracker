@@ -1,17 +1,13 @@
 import { useState } from "react";
 
-const LS_TOKEN_NAME = "token";
+import getLocalStorageItem from "utils/getLocalStorageItem";
+import { LS_TOKEN_NAME } from "consts/localStorageItems";
 
 const useToken = () => {
-  const getToken = () => {
-    const tokenString = localStorage.getItem(LS_TOKEN_NAME);
-    const userToken = JSON.parse(tokenString);
-    return userToken?.token || null;
-  };
+  const LS_TOKEN = getLocalStorageItem(LS_TOKEN_NAME)?.token;
+  const [token, setToken] = useState(LS_TOKEN);
 
-  const [token, setToken] = useState(getToken());
-
-  const hasToken = () => token !== null;
+  const hasToken = () => token !== null && token !== undefined;
 
   const saveToken = (userToken) => {
     localStorage.setItem(LS_TOKEN_NAME, JSON.stringify(userToken));
