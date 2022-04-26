@@ -22,7 +22,7 @@ const SignIn = () => {
   }, []);
 
   const onSubmit = (props, methods) =>
-    sendQuery("auth/login", {
+    sendQuery("auth/sign-in", {
       method: "POST",
       body: {
         email: props.email,
