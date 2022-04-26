@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   const onLogout = () => {
     setIsLoading(true);
-    sendQuery("auth/logout", {
+    sendQuery("auth/sign-out", {
       method: "POST",
     })
       .then(() => {
