@@ -12,8 +12,6 @@ const initialState = {
   lastName: "",
   email: "",
   role: "",
-  jobs: [],
-  companies: [],
 };
 
 const UserContext = createContext();

@@ -6,9 +6,11 @@ import { unauthorizedShape } from "./index.shape";
 const Unauthorized = ({ children }) => (
   <Page bgImage={backgroundJPEG}>
     <Box
-      h="100vh"
+      minHeight="100vh"
       bgGradient="linear(to-tr, solidBlue.900, solidBlue.900)"
       justifyContent="left"
+      display="flex"
+      flexDirection="column"
     >
       <Box
         display="flex"
@@ -24,6 +26,8 @@ const Unauthorized = ({ children }) => (
         bgGradient="linear(to-br, rose.100, solidBlue.0)"
         backdropFilter="blur(4px)"
         color="white"
+        flexGrow={1}
+        maxWidth={{ md: 400 }}
       >
         {children}
       </Box>

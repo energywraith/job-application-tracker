@@ -5,7 +5,8 @@ import { backgroundShape } from "./index.shape";
 const Background = ({ image }) => (
   <Box
     width="100%"
-    height="100vh"
+    minHeight="100vh"
+    height="100%"
     bgImage={image}
     bgSize="cover"
     bgRepeat="no-repeat"
