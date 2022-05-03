@@ -1,6 +1,6 @@
 import { Icon } from "@chakra-ui/react";
 import { LockIcon } from "@chakra-ui/icons";
-import { UserIcon } from "components/Icons";
+import UserIcon from "remixicon-react/User3LineIcon";
 
 export default [
   {
@@ -10,7 +10,7 @@ export default [
       label: "Email address",
       placeholder: "Enter email address",
       startAdornment: (
-        <Icon as={UserIcon} width={7} height={7} stroke="white" />
+        <Icon as={UserIcon} fontSize={20} strokeWidth={1} stroke="white" />
       ),
     },
   },
