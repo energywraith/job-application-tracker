@@ -22,10 +22,10 @@ const LogoutButton = ({ isLoading, onLogout }) => (
     borderRadius={20}
     py={5}
     _hover={{
-      background: "blackAlpha.600",
+      background: "slateBlue.100",
     }}
     _active={{
-      background: "blackAlpha.400",
+      background: "slateBlue.200",
     }}
   >
     Log out
