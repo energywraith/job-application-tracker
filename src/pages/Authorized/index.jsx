@@ -1,8 +1,9 @@
+import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import useToken from "hooks/useToken";
 import AuthorizedLayout from "layouts/Authorized";
 
-import Dashboard from "./Dashboard";
+const LazyDashboard = React.lazy(() => import("./Dashboard"));
 
 const Authorized = () => {
   const { hasToken } = useToken();
@@ -15,7 +16,7 @@ const Authorized = () => {
         )}
         <Route path="/settings" element={<div>SETTINGS</div>} />
         <Route path="/jobs" element={<div>JOBS</div>} />
-        <Route index element={<Dashboard />} />
+        <Route index element={<LazyDashboard />} />
       </Routes>
     </AuthorizedLayout>
   );
