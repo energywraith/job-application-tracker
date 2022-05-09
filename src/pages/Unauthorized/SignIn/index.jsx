@@ -14,7 +14,8 @@ const SignIn = () => {
   const { setToken } = useToken();
   const { setUser } = useUser();
   const { sendQuery } = useQuery();
-  const { handleFormValidationErrors } = useErrorsHandling();
+  const { handleResponseError, handleFormValidationErrors } =
+    useErrorsHandling();
 
   const onSubmit = (props, methods) =>
     sendQuery("auth/sign-in", {
@@ -34,6 +35,11 @@ const SignIn = () => {
       })
       .catch((error) => {
         methods.clearErrors();
+
+        if (error.errorType === "AuthError") {
+          handleResponseError(error);
+        }
+
         handleFormValidationErrors(error, methods);
       });
 

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 
 import ContentBox from "layouts/Unauthorized/ContentBox";
 import useQuery from "hooks/useQuery";
@@ -9,8 +10,10 @@ import validationSchema from "./index.validation";
 
 const Register = () => {
   const navigate = useNavigate();
+  const toast = useToast();
   const { sendQuery } = useQuery();
-  const { handleFormValidationErrors } = useErrorsHandling();
+  const { handleResponseError, handleFormValidationErrors } =
+    useErrorsHandling();
 
   const onSubmit = (props, methods) => {
     const [firstName, lastName] = props.fullName.split(" ");
@@ -25,10 +28,22 @@ const Register = () => {
       },
     })
       .then(() => {
+        toast({
+          title: "Your account has been succesfully created.",
+          position: "bottom-left",
+          status: "success",
+          variant: "subtle",
+          isClosable: true,
+        });
         navigate("/sign-in", { replace: true });
       })
       .catch((error) => {
         methods.clearErrors();
+
+        if (error.errorType === "ResourceExistsError") {
+          handleResponseError(error);
+        }
+
         handleFormValidationErrors(error, methods);
       });
   };
