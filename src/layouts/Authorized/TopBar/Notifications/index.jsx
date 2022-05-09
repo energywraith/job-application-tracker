@@ -6,7 +6,7 @@ import {
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
-  Box,
+  IconButton,
   Icon,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -19,15 +19,19 @@ const Notifications = () => {
 
   return (
     <>
-      <Icon
-        as={NotificationLineIcon}
+      <IconButton
+        icon={<Icon as={NotificationLineIcon} />}
+        mr={3}
+        p={5}
         width={5}
         height={5}
-        mr={5}
-        color="white"
         cursor="pointer"
         ref={btnRef}
         onClick={onOpen}
+        bg="transparent"
+        color="white"
+        _hover={{ color: "whiteAlpha.700" }}
+        _active={{ color: "whiteAlpha.600" }}
       />
       <Drawer
         isOpen={isOpen}
