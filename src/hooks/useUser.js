@@ -1,6 +1,5 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
-import useQuery from "hooks/useQuery";
 import { LS_USER_NAME } from "consts/localStorageItems";
 
 import { UserContext, initialState } from "utils/contexts/User";
@@ -8,9 +7,6 @@ import { actions } from "utils/contexts/User/reducer";
 
 const useUser = () => {
   const context = useContext(UserContext);
-  const { sendQuery } = useQuery();
-
-  const userID = context.state.id;
 
   if (context === undefined) {
     throw new Error("useUser must be used within a UserContext");
@@ -25,14 +21,6 @@ const useUser = () => {
     });
   };
 
-  const fetchUser = () => {
-    if (userID !== "") {
-      sendQuery(`users/${userID}`).then((response) => {
-        setUser(response);
-      });
-    }
-  };
-
   const clearUser = () => {
     localStorage.setItem(LS_USER_NAME, null);
 
@@ -41,10 +29,6 @@ const useUser = () => {
       payload: initialState,
     });
   };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   return { user: context.state, setUser, clearUser };
 };

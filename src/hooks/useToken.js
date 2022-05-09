@@ -5,6 +5,7 @@ import { LS_TOKEN_NAME } from "consts/localStorageItems";
 
 const useToken = () => {
   const LS_TOKEN = getLocalStorageItem(LS_TOKEN_NAME)?.token;
+
   const [token, setToken] = useState(LS_TOKEN);
 
   const hasToken = () => token !== null && token !== undefined;

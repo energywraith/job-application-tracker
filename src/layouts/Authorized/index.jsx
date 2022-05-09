@@ -1,9 +1,26 @@
+import { useEffect } from "react";
 import { Box, Grid, GridItem, Divider } from "@chakra-ui/react";
+
+import useUser from "hooks/useUser";
+import useQuery from "hooks/useQuery";
 
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
 
 const Authorized = ({ children }) => {
+  const { sendQuery } = useQuery();
+  const { user, setUser } = useUser();
+
+  useEffect(() => {
+    if (user?.id !== "") {
+      sendQuery(`users/${user?.id}`)
+        .then((response) => {
+          setUser(response);
+        })
+        .catch(() => {});
+    }
+  }, []);
+
   return (
     <Grid
       h="100vh"

@@ -1,9 +1,11 @@
+import useErrorsHandling from "hooks/useErrorsHandling";
 import useToken from "hooks/useToken";
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
 const useQuery = () => {
-  const { hasToken, token } = useToken();
+  const { token, hasToken } = useToken();
+  const { handleUnauthenticated } = useErrorsHandling();
 
   const parseJSON = (response) => {
     return new Promise((resolve) =>
@@ -32,6 +34,10 @@ const useQuery = () => {
       })
         .then(parseJSON)
         .then((response) => {
+          if (response.status === 401) {
+            handleUnauthenticated();
+          }
+
           if (response.ok) {
             return resolve(response.json);
           }
