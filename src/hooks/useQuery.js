@@ -34,7 +34,10 @@ const useQuery = () => {
       })
         .then(parseJSON)
         .then((response) => {
-          if (response.json?.errorType === "JsonWebTokenError") {
+          if (
+            response.json?.errorType === "JsonWebTokenError" ||
+            response.json?.errorType === "TokenExpiredError"
+          ) {
             handleUnauthenticated();
           }
 
