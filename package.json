@@ -29,12 +29,6 @@
     "eject": "react-scripts eject",
     "serve": "serve -l 5000 -s build"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -48,9 +42,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.18.2",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.2"
   }

@@ -1,9 +1,3 @@
 {
-  "extends": ["prettier"],
-  "plugins": ["react-hooks", "prettier"],
-  "rules": {
-    "react-hooks/exhaustive-deps": 0
-  },
-  "parser": "@babel/eslint-parser",
-  "requireConfigFile": false
+  "extends": ["react-app", "eslint-config-prettier", "eslint-config-react-app"]
 }
