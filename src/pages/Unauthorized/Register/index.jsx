@@ -1,6 +1,7 @@
 import ContentBox from "layouts/Unauthorized/ContentBox";
 
 import useRegister from "./useRegister";
+
 import fields from "./index.fields";
 import validationSchema from "./index.validation";
 

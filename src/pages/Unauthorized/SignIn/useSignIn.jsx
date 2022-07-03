@@ -13,31 +13,30 @@ const useSignIn = () => {
   const { handleResponseError, handleFormValidationErrors } =
     useErrorsHandling();
 
-  const onSignIn = (props, methods) =>
-    sendQuery("auth/sign-in", {
-      method: "POST",
-      body: {
-        email: props.email,
-        password: props.password,
-      },
-    })
-      .then((response) => {
-        const { token, expiresAt, user } = response;
-
-        setToken({ token, expiresAt });
-        setUser(user);
-
-        navigate("/app", { replace: true });
-      })
-      .catch((error) => {
-        methods.clearErrors();
-
-        if (error.errorType === "AuthError") {
-          handleResponseError(error);
-        }
-
-        handleFormValidationErrors(error, methods);
+  const onSignIn = async (props, methods) => {
+    try {
+      const { token, expiresAt, user } = await sendQuery("auth/sign-in", {
+        method: "POST",
+        body: {
+          email: props.email,
+          password: props.password,
+        },
       });
+
+      setToken({ token, expiresAt });
+      setUser(user);
+
+      navigate("/app", { replace: true });
+    } catch (error) {
+      methods.clearErrors();
+
+      if (error.errorType === "AuthError") {
+        handleResponseError(error);
+      }
+
+      handleFormValidationErrors(error, methods);
+    }
+  };
 
   return { onSignIn };
 };

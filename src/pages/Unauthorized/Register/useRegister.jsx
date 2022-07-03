@@ -11,37 +11,38 @@ const useRegister = () => {
   const { handleResponseError, handleFormValidationErrors } =
     useErrorsHandling();
 
-  const onRegister = (props, methods) => {
+  const onRegister = async (props, methods) => {
     const [firstName, lastName] = props.fullName.split(" ");
 
-    sendQuery("auth/sign-up", {
-      method: "POST",
-      body: {
-        firstName,
-        lastName,
-        email: props.email,
-        password: props.password,
-      },
-    })
-      .then(() => {
-        toast({
-          title: "Your account has been succesfully created.",
-          position: "bottom-left",
-          status: "success",
-          variant: "subtle",
-          isClosable: true,
-        });
-        navigate("/sign-in", { replace: true });
-      })
-      .catch((error) => {
-        methods.clearErrors();
-
-        if (error.errorType === "ResourceExistsError") {
-          handleResponseError(error);
-        }
-
-        handleFormValidationErrors(error, methods);
+    try {
+      await sendQuery("auth/sign-up", {
+        method: "POST",
+        body: {
+          firstName,
+          lastName,
+          email: props.email,
+          password: props.password,
+        },
       });
+
+      toast({
+        title: "Your account has been succesfully created.",
+        position: "bottom-left",
+        status: "success",
+        variant: "subtle",
+        isClosable: true,
+      });
+
+      navigate("/sign-in", { replace: true });
+    } catch (error) {
+      methods.clearErrors();
+
+      if (error.errorType === "ResourceExistsError") {
+        handleResponseError(error);
+      }
+
+      handleFormValidationErrors(error, methods);
+    }
   };
 
   return { onRegister };

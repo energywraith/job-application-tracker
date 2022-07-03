@@ -19,20 +19,21 @@ const Sidebar = () => {
   const { handleResponseError } = useErrorsHandling();
   const [isLoading, setIsLoading] = useState(false);
 
-  const onLogout = () => {
+  const onLogout = async () => {
     setIsLoading(true);
-    sendQuery("auth/sign-out", {
-      method: "POST",
-    })
-      .then(() => {
-        setIsLoading(false);
-        clearToken();
-        clearUser();
-        navigate("/sign-in", { replace: true });
-      })
-      .catch((error) => {
-        handleResponseError(error);
+
+    try {
+      await sendQuery("auth/sign-out", {
+        method: "POST",
       });
+
+      setIsLoading(false);
+      clearToken();
+      clearUser();
+      navigate("/sign-in", { replace: true });
+    } catch (error) {
+      handleResponseError(error);
+    }
   };
 
   return (
