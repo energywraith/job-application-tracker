@@ -16,11 +16,16 @@ const ContentBox = ({
   onSubmit,
 }) => {
   return (
-    <>
-      <Heading as="h1" size="2xl" textShadow="0.3px 0.3px 3px blackAlpha.600">
+    <Flex direction="column">
+      <Heading
+        as="h1"
+        mx={{ base: "auto", md: "0" }}
+        size="2xl"
+        textShadow="0.3px 0.3px 3px blackAlpha.600"
+      >
         {title}
       </Heading>
-      <Box mt={9} maxWidth={400}>
+      <Box mt={9} width="100%" maxWidth={400} mx="auto">
         <Form
           fields={fields}
           submitText={submitText}
@@ -32,6 +37,7 @@ const ContentBox = ({
       <Heading
         as="h2"
         mt={12}
+        mx={{ base: "auto", md: "0" }}
         size="sm"
         textShadow="0.3px 0.3px 3px rgba(0, 0, 0, 0.2)"
         color="whiteAlpha.900"
@@ -44,7 +50,7 @@ const ContentBox = ({
           />
         </Flex>
       </Heading>
-    </>
+    </Flex>
   );
 };
 

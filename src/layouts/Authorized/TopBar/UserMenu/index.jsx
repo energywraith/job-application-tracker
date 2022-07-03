@@ -1,31 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 
-import useToken from "hooks/useToken";
-import useUser from "hooks/useUser";
-import useQuery from "hooks/useQuery";
-import useErrorsHandling from "hooks/useErrorsHandling";
 import Avatar from "components/Avatar";
 
-const UserMenu = () => {
-  const navigate = useNavigate();
-  const { clearToken } = useToken();
-  const { clearUser } = useUser();
-  const { sendQuery } = useQuery();
-  const { handleResponseError } = useErrorsHandling();
-
-  const onLogout = () =>
-    sendQuery("auth/sign-out", {
-      method: "POST",
-    })
-      .then(() => {
-        clearToken();
-        clearUser();
-        navigate("/sign-in", { replace: true });
-      })
-      .catch((error) => {
-        handleResponseError(error);
-      });
+const UserMenu = ({ onLogout }) => {
   return (
     <Menu>
       <MenuButton>
@@ -41,6 +19,10 @@ const UserMenu = () => {
       </MenuList>
     </Menu>
   );
+};
+
+UserMenu.propTypes = {
+  onLogout: PropTypes.func.isRequired,
 };
 
 export default UserMenu;

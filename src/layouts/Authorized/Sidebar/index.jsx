@@ -1,48 +1,31 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import { Box } from "@chakra-ui/react";
 
-import useToken from "hooks/useToken";
-import useQuery from "hooks/useQuery";
-import useUser from "hooks/useUser";
-import useErrorsHandling from "hooks/useErrorsHandling";
 import Brand from "components/Brand";
 
+import { menuItemsShape } from "layouts/Authorized/index.shapes";
 import Menu from "./Menu";
 import LogoutButton from "./LogoutButton";
 
-const Sidebar = () => {
-  const navigate = useNavigate();
-  const { clearToken } = useToken();
-  const { clearUser } = useUser();
-  const { sendQuery } = useQuery();
-  const { handleResponseError } = useErrorsHandling();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onLogout = async () => {
-    setIsLoading(true);
-
-    try {
-      await sendQuery("auth/sign-out", {
-        method: "POST",
-      });
-
-      setIsLoading(false);
-      clearToken();
-      clearUser();
-      navigate("/sign-in", { replace: true });
-    } catch (error) {
-      handleResponseError(error);
-    }
-  };
-
+const Sidebar = ({ menuItems, isLoading, onLogout }) => {
   return (
     <Box display="flex" flexDirection="column" pt={3}>
       <Brand />
-      <Menu />
+      <Menu items={menuItems} />
       <LogoutButton isLoading={isLoading} onLogout={onLogout} />
     </Box>
   );
+};
+
+Sidebar.propTypes = {
+  onLogout: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
+  menuItems: menuItemsShape,
+};
+
+Sidebar.defaultProps = {
+  isLoading: false,
+  menuItems: [],
 };
 
 export default Sidebar;

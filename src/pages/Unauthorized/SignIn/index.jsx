@@ -14,7 +14,7 @@ const SignIn = () => {
       submitText="Sign in"
       submittingText="Signing in"
       footerText="Don't have an account?"
-      footerActionLinkText="Create one"
+      footerActionLinkText="Sign up now!"
       footerActionLinkHref="/register"
       fields={fields}
       validationSchema={validationSchema}

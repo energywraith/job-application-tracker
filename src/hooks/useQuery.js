@@ -44,6 +44,7 @@ const useQuery = () => {
           response.json?.errorType === "TokenExpiredError"
         ) {
           handleUnauthenticated();
+          return;
         }
 
         if (response.ok) {

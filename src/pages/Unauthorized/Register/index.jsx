@@ -10,7 +10,7 @@ const Register = () => {
 
   return (
     <ContentBox
-      title="Register"
+      title="Sign up"
       submitText="Sign up"
       submittingText="Signing up"
       footerText="Already have an account?"

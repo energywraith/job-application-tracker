@@ -1,26 +1,13 @@
-import { useEffect } from "react";
+import PropTypes from "prop-types";
 import { Box, Grid, GridItem, Divider } from "@chakra-ui/react";
 
-import useUser from "hooks/useUser";
-import useQuery from "hooks/useQuery";
+import noop from "utils/noop";
 
+import { menuItemsShape } from "./index.shapes";
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
 
-const Authorized = ({ children }) => {
-  const { sendQuery } = useQuery();
-  const { user, setUser } = useUser();
-
-  useEffect(() => {
-    if (user?.id !== "") {
-      sendQuery(`users/${user?.id}`)
-        .then((response) => {
-          setUser(response);
-        })
-        .catch(() => {});
-    }
-  }, []);
-
+const Authorized = ({ children, menuItems, isLoading, onLogout }) => {
   return (
     <Grid
       h="100vh"
@@ -45,7 +32,11 @@ const Authorized = ({ children }) => {
         overflowY="auto"
         boxShadow="0 0.3px 0.3px black"
       >
-        <Sidebar />
+        <Sidebar
+          menuItems={menuItems}
+          isLoading={isLoading}
+          onLogout={onLogout}
+        />
       </GridItem>
       <GridItem
         overflowY="scroll"
@@ -54,12 +45,26 @@ const Authorized = ({ children }) => {
         height="100%"
         bg="blackAlpha.500"
       >
-        <TopBar />
+        <TopBar onLogout={onLogout} />
         <Divider orientation="horizontal" borderColor="whiteAlpha.300" mb={6} />
         <Box color="white">{children}</Box>
       </GridItem>
     </Grid>
   );
+};
+
+Authorized.propTypes = {
+  children: PropTypes.node,
+  isLoading: PropTypes.bool,
+  menuItems: menuItemsShape,
+  onLogout: PropTypes.func,
+};
+
+Authorized.defaultProps = {
+  children: null,
+  isLoading: false,
+  menuItems: [],
+  onLogout: noop,
 };
 
 export default Authorized;

@@ -6,7 +6,7 @@ const ActionLink = ({ textContent, to }) => (
   <ChakraLink
     as={RouterLink}
     to={to}
-    color="discoCyan.800"
+    color="discoCyan.900"
     _hover={{
       textDecoration: "none",
       color: "discoCyan.600",

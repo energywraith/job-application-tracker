@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { Box, Flex, Icon as ChakraIcon, Text } from "@chakra-ui/react";
 
+import { menuItemShape } from "layouts/Authorized/index.shapes";
+
 const MenuItem = ({ Icon, title, path, isActive }) => {
   const activeWrapperStyles = {
     cursor: "default",
@@ -48,6 +50,15 @@ const MenuItem = ({ Icon, title, path, isActive }) => {
       </Flex>
     </Link>
   );
+};
+
+MenuItem.propTypes = menuItemShape;
+
+MenuItem.defaultProps = {
+  id: "",
+  title: "",
+  Icon: undefined,
+  match: "",
 };
 
 export default MenuItem;
