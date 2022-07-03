@@ -8,48 +8,52 @@ const useQuery = () => {
   const { handleUnauthenticated } = useErrorsHandling();
 
   const parseJSON = (response) => {
-    return new Promise((resolve) =>
-      response.json().then((json) =>
-        resolve({
-          status: response.status,
-          ok: response.ok,
-          json,
-        })
-      )
-    );
+    const parseResponse =
+      response.status === 204 ? response.text() : response.json();
+
+    return new Promise(async (resolve) => {
+      const json = await parseResponse;
+
+      resolve({
+        status: response.status,
+        ok: response.ok,
+        json,
+      });
+    });
   };
 
   const sendQuery = (
     path,
     { body, method } = { body: undefined, method: "GET" }
   ) =>
-    new Promise((resolve, reject) => {
-      fetch(`${baseUrl}/${path}`, {
-        method,
-        headers: {
-          Authorization: hasToken() && `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      })
-        .then(parseJSON)
-        .then((response) => {
-          if (
-            response.json?.errorType === "JsonWebTokenError" ||
-            response.json?.errorType === "TokenExpiredError"
-          ) {
-            handleUnauthenticated();
-          }
-
-          if (response.ok) {
-            return resolve(response.json);
-          }
-
-          return reject(response.json);
-        })
-        .catch((error) => {
-          reject(error);
+    new Promise(async (resolve, reject) => {
+      try {
+        const rawResponse = await fetch(`${baseUrl}/${path}`, {
+          method,
+          headers: {
+            Authorization: hasToken() && `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
         });
+
+        const response = await parseJSON(rawResponse);
+
+        if (
+          response.json?.errorType === "JsonWebTokenError" ||
+          response.json?.errorType === "TokenExpiredError"
+        ) {
+          handleUnauthenticated();
+        }
+
+        if (response.ok) {
+          return resolve(response.json);
+        }
+
+        return reject(response.json);
+      } catch (error) {
+        reject(error);
+      }
     });
 
   return { sendQuery };
