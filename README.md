@@ -1,21 +1,38 @@
-# Job Application tracker for students.
+# Job Application tracker
 
-The Problem
+Looking for a job can be really problematic when you apply to several companies at once. I tried to create an excel sheet that would help me with this, but it also got confusing after a while. So why not create an application that would help us with this?
 
-    Students apply for hundreds of jobs but can become disorganized.
+The API for the project is implemented in [another repo](https://github.com/nekiro/job-application-tracker) by a back-end developer :)
 
-    Input a company. Date of application.
+The app is deployed at the link: [jobtracker.pl](https://jobtracker.pl/), feel free to use it and leave feedback!
 
-    Add stages e.g. Stage 1: Phone screening. Stage 2: In-person interview.
+## Run the project locally
 
-    Status of application.
+First clone the repository:
+```bash
+git clone https://github.com/energywraith/job-application-tracker.git
+```
 
-    Notes about each company. Maybe it can pull info from somewhere.
+Install dependencies:
+```bash
+npm install
+```
 
-Extra features
+Adjust .env located at root of the project and then run local development server
+```bash
+npm start
+```
 
-    Reminders to follow up after a certain amount of time (e.g. 1 week after interview).
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-    Email templates that dynamically change the company name.
+<br>
 
-    Analytics Page. See how may applications you've sent within a given period. Response rate.
+## Things to do in the future:
+
+* Reminders to follow up after a certain amount of time (e.g. 1 week after interview).
+
+* Email templates that dynamically change the company name.
+
+* Analytics Page. See how may applications you've sent within a given period. Response rate.
+    
+* Opinions about companies, maybe being fetched from gowork
