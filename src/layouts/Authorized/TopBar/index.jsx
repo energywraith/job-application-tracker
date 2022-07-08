@@ -4,9 +4,10 @@ import { Flex } from "@chakra-ui/react";
 import Notifications from "./Notifications";
 import UserMenu from "./UserMenu";
 
-const TopBar = ({ onLogout }) => {
+const Topbar = ({ onLogout, TopbarComponent, TopbarProps }) => {
   return (
-    <Flex height="80px" alignItems="center" px={4}>
+    <Flex height="80px" alignItems="center">
+      {TopbarComponent && <TopbarComponent {...TopbarProps} />}
       <Flex alignItems="center" marginLeft="auto">
         <Notifications />
         <UserMenu onLogout={onLogout} />
@@ -15,8 +16,15 @@ const TopBar = ({ onLogout }) => {
   );
 };
 
-TopBar.propTypes = {
+Topbar.propTypes = {
   onLogout: PropTypes.func.isRequired,
+  TopbarComponent: PropTypes.elementType,
+  TopbarProps: PropTypes.shape({}),
 };
 
-export default TopBar;
+Topbar.defaultProps = {
+  TopbarComponent: null,
+  TopbarProps: {},
+};
+
+export default Topbar;

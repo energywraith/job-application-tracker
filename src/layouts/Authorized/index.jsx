@@ -4,10 +4,17 @@ import { Box, Grid, GridItem, Divider } from "@chakra-ui/react";
 import noop from "utils/noop";
 
 import { menuItemsShape } from "./index.shapes";
-import TopBar from "./TopBar";
+import Topbar from "./Topbar";
 import Sidebar from "./Sidebar";
 
-const Authorized = ({ children, menuItems, isLoading, onLogout }) => {
+const Authorized = ({
+  TopbarComponent,
+  TopbarProps,
+  children,
+  menuItems,
+  isLoading,
+  onLogout,
+}) => {
   return (
     <Grid
       h="100vh"
@@ -45,7 +52,11 @@ const Authorized = ({ children, menuItems, isLoading, onLogout }) => {
         height="100%"
         bg="blackAlpha.500"
       >
-        <TopBar onLogout={onLogout} />
+        <Topbar
+          onLogout={onLogout}
+          TopbarComponent={TopbarComponent}
+          TopbarProps={TopbarProps}
+        />
         <Divider orientation="horizontal" borderColor="whiteAlpha.300" mb={6} />
         <Box color="white">{children}</Box>
       </GridItem>
@@ -54,6 +65,8 @@ const Authorized = ({ children, menuItems, isLoading, onLogout }) => {
 };
 
 Authorized.propTypes = {
+  TopbarComponent: PropTypes.elementType,
+  TopbarProps: PropTypes.shape({}),
   children: PropTypes.node,
   isLoading: PropTypes.bool,
   menuItems: menuItemsShape,
@@ -61,6 +74,8 @@ Authorized.propTypes = {
 };
 
 Authorized.defaultProps = {
+  TopbarComponent: null,
+  TopbarProps: {},
   children: null,
   isLoading: false,
   menuItems: [],
