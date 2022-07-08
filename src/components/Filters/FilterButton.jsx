@@ -9,7 +9,7 @@ const FilterButton = ({ children }) => {
     <Button
       color="gray"
       variant={selected ? "solid" : "outline"}
-      onClick={() => setSelected((selected) => !selected)}
+      onClick={() => setSelected((currentState) => !currentState)}
     >
       {children}
     </Button>
