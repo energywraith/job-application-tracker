@@ -17,9 +17,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
-          port: 22
           script: |
-            cd ~/job-application-tracker-front
+            cd ~/front
             echo REACT_APP_API_URL=https://api.jobtracker.pl > .env
 
             git fetch --all
@@ -27,5 +26,5 @@ jobs:
             git status
             npm install
             npm run build
-            pm2 delete job-app-tracker-front
-            pm2 start npm --name "job-app-tracker-front" -- run "serve"
+            pm2 delete front || :
+            pm2 start npm --name "front" -- run "serve"
