@@ -10,6 +10,9 @@ const useJobs = () => {
   });
 
   const filterFields = [
+    //
+    // TODO: Separate checkbox fields could be changed to a checkboxGroup
+    //
     {
       name: "new",
       type: "checkbox",
