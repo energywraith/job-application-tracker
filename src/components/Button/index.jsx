@@ -1,18 +1,22 @@
+import { forwardRef } from "react";
 import { PropTypes } from "prop-types";
 import { Button as ChakraButton } from "@chakra-ui/react";
 import noop from "utils/noop";
 
 import variants from "./variants";
 
-const Button = ({ type, color, variant, onClick, chakraProps, children }) => (
-  <ChakraButton
-    {...variants[color][variant]}
-    {...chakraProps}
-    type={type}
-    onClick={onClick}
-  >
-    {children}
-  </ChakraButton>
+const Button = forwardRef(
+  ({ type, color, variant, onClick, chakraProps, children }, ref) => (
+    <ChakraButton
+      {...variants[color][variant]}
+      {...chakraProps}
+      type={type}
+      onClick={onClick}
+      ref={ref}
+    >
+      {children}
+    </ChakraButton>
+  )
 );
 
 Button.propTypes = {

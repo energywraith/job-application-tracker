@@ -12,8 +12,16 @@ import useTopbar from "hooks/useTopbar";
 import Filters from "components/Filters";
 import colorVariants from "./colorVariants";
 
-const Table = ({ propertyNames, data, colorVariant, chakraProps, filters }) => {
-  useTopbar(Filters, { filters });
+const Table = ({
+  propertyNames,
+  data,
+  colorVariant,
+  chakraProps,
+  filterFields,
+  filters,
+  onFiltersChange,
+}) => {
+  useTopbar(Filters, { filters, filterFields, onChange: onFiltersChange });
 
   return (
     <TableContainer {...colorVariants[colorVariant].container} {...chakraProps}>
@@ -44,13 +52,28 @@ Table.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   colorVariant: PropTypes.oneOf(["default"]),
   chakraProps: PropTypes.shape({}),
-  filters: PropTypes.arrayOf(PropTypes.string),
+  filters: PropTypes.shape({}),
+  filterFields: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      type: PropTypes.oneOf(["checkbox", "select"]),
+      inputProps: PropTypes.shape({
+        label: PropTypes.string,
+        CustomComponent: PropTypes.elementType,
+        customComponentProps: PropTypes.oneOfType([
+          PropTypes.func,
+          PropTypes.shape({}),
+        ]),
+      }),
+    })
+  ),
 };
 
 Table.defaultProps = {
   colorVariant: "default",
   chakraProps: {},
-  filters: [],
+  filters: {},
+  filterFields: [],
 };
 
 export default Table;

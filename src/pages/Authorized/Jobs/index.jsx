@@ -3,7 +3,8 @@ import Table from "components/Table";
 import useJobs from "./useJobs";
 
 const Jobs = () => {
-  const { filters, jobsPropertyNames, jobs } = useJobs();
+  const { filters, onFiltersChange, filterFields, jobsPropertyNames, jobs } =
+    useJobs();
 
   return (
     <>
@@ -12,7 +13,9 @@ const Jobs = () => {
         chakraProps={{ mt: 6 }}
         data={jobs}
         propertyNames={jobsPropertyNames}
+        filterFields={filterFields}
         filters={filters}
+        onFiltersChange={onFiltersChange}
       />
     </>
   );

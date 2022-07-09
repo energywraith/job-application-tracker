@@ -1,9 +1,47 @@
+import Button from "components/Button";
+import useFiltersManager from "hooks/useFiltersManager";
+
 const useJobs = () => {
-  const filters = [
-    "New",
-    "Got offer",
-    "Refused",
-    "Select(All/HR/Technical/Waiting)",
+  const { filters, onFiltersChange } = useFiltersManager({
+    new: false,
+    gotOffer: false,
+    refused: false,
+  });
+
+  const checkboxFieldInputProps = {
+    inputProps: {
+      CustomComponent: Button,
+      customComponentProps: ({ isChecked }) => ({
+        color: "gray",
+        variant: isChecked ? "solid" : "outline",
+        children: "New",
+      }),
+    },
+  };
+
+  const filterFields = [
+    {
+      name: "new",
+      type: "checkbox",
+      ...checkboxFieldInputProps,
+    },
+    {
+      name: "gotOffer",
+      type: "checkbox",
+      ...checkboxFieldInputProps,
+    },
+    {
+      name: "refused",
+      type: "checkbox",
+      ...checkboxFieldInputProps,
+    },
+    // {
+    //   name: "level",
+    //   type: "select",
+    //   inputProps: {
+    //     options: ["All", "HR", "Technical", "Waiting"],
+    //   },
+    // },
   ];
 
   const jobsPropertyNames = ["name", "surname", "age"];
@@ -13,7 +51,7 @@ const useJobs = () => {
     { name: "Saint", surname: "Carol", age: 20 },
   ];
 
-  return { filters, jobsPropertyNames, jobs };
+  return { filters, onFiltersChange, filterFields, jobsPropertyNames, jobs };
 };
 
 export default useJobs;
