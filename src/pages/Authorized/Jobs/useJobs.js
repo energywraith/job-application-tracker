@@ -6,6 +6,7 @@ const useJobs = () => {
     new: false,
     gotOffer: false,
     refused: false,
+    level: "all",
   });
 
   const filterFields = [
@@ -45,13 +46,18 @@ const useJobs = () => {
         }),
       },
     },
-    // {
-    //   name: "level",
-    //   type: "select",
-    //   inputProps: {
-    //     options: ["All", "HR", "Technical", "Waiting"],
-    //   },
-    // },
+    {
+      name: "level",
+      type: "select",
+      inputProps: {
+        options: [
+          { value: "all", label: "All" },
+          { value: "hr", label: "HR" },
+          { value: "technical", label: "Technical" },
+          { value: "assigment", label: "Assigment" },
+        ],
+      },
+    },
   ];
 
   const jobsPropertyNames = ["name", "surname", "age"];

@@ -58,6 +58,7 @@ const Form = ({
             key={field.name}
             mt={!horizontal && index !== 0 && 6}
             mr={horizontal && index !== fields.length - 1 && 3}
+            width="auto"
           >
             <FormLabel htmlFor={field.name}>{field.inputProps.label}</FormLabel>
             <Field
