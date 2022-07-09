@@ -22,13 +22,28 @@ const useQuery = () => {
     });
   };
 
+  const addSearchParams = (url, params) => {
+    if (!params) return url;
+
+    const urlWithParams = new URL(url);
+    urlWithParams.search = new URLSearchParams(params).toString();
+
+    return urlWithParams;
+  };
+
   const sendQuery = (
     path,
-    { body, method } = { body: undefined, method: "GET" }
+    { body, method, searchParams } = {
+      body: undefined,
+      method: "GET",
+      searchParams: undefined,
+    }
   ) =>
     new Promise(async (resolve, reject) => {
       try {
-        const rawResponse = await fetch(`${baseUrl}/${path}`, {
+        const url = addSearchParams(`${baseUrl}/${path}`, searchParams);
+
+        const rawResponse = await fetch(url, {
           method,
           headers: {
             Authorization: hasToken() && `Bearer ${token}`,

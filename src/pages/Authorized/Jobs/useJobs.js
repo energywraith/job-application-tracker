@@ -1,7 +1,22 @@
-import Button from "components/Button";
 import useFiltersManager from "hooks/useFiltersManager";
+import useQueryWrapped from "hooks/useQueryWrapped";
+import useUser from "hooks/useUser";
+import Button from "components/Button";
 
 const useJobs = () => {
+  const { user } = useUser();
+  //
+  // TODO: Add loader to table when the data is being fetched
+  //
+  const [jobs] = useQueryWrapped({
+    path: "jobs",
+    fetchOnInit: true,
+    defaultParams: {
+      method: "GET",
+      searchParams: { userId: user.id },
+    },
+  });
+
   const { filters, onFiltersChange } = useFiltersManager({
     new: false,
     gotOffer: false,
@@ -9,10 +24,10 @@ const useJobs = () => {
     level: "all",
   });
 
+  //
+  // TODO: Separate checkbox fields could be changed to a checkboxGroup
+  //
   const filterFields = [
-    //
-    // TODO: Separate checkbox fields could be changed to a checkboxGroup
-    //
     {
       name: "new",
       type: "checkbox",
@@ -63,12 +78,7 @@ const useJobs = () => {
     },
   ];
 
-  const jobsPropertyNames = ["name", "surname", "age"];
-
-  const jobs = [
-    { name: "John", surname: "Smith", age: 42 },
-    { name: "Saint", surname: "Carol", age: 20 },
-  ];
+  const jobsPropertyNames = ["name", "level", "status"];
 
   return { filters, onFiltersChange, filterFields, jobsPropertyNames, jobs };
 };
