@@ -27,7 +27,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve": "serve -l 5000 -s build"
+    "serve": "npx serve -l 5000 -s build"
   },
   "browserslist": {
     "production": [
