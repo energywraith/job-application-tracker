@@ -8,32 +8,42 @@ const useJobs = () => {
     refused: false,
   });
 
-  const checkboxFieldInputProps = {
-    inputProps: {
-      CustomComponent: Button,
-      customComponentProps: ({ isChecked }) => ({
-        color: "gray",
-        variant: isChecked ? "solid" : "outline",
-        children: "New",
-      }),
-    },
-  };
-
   const filterFields = [
     {
       name: "new",
       type: "checkbox",
-      ...checkboxFieldInputProps,
+      inputProps: {
+        CustomComponent: Button,
+        customComponentProps: ({ isChecked }) => ({
+          color: "gray",
+          variant: isChecked ? "solid" : "outline",
+          children: "New",
+        }),
+      },
     },
     {
       name: "gotOffer",
       type: "checkbox",
-      ...checkboxFieldInputProps,
+      inputProps: {
+        CustomComponent: Button,
+        customComponentProps: ({ isChecked }) => ({
+          color: "gray",
+          variant: isChecked ? "solid" : "outline",
+          children: "Got offer",
+        }),
+      },
     },
     {
       name: "refused",
       type: "checkbox",
-      ...checkboxFieldInputProps,
+      inputProps: {
+        CustomComponent: Button,
+        customComponentProps: ({ isChecked }) => ({
+          color: "gray",
+          variant: isChecked ? "solid" : "outline",
+          children: "Refused",
+        }),
+      },
     },
     // {
     //   name: "level",
