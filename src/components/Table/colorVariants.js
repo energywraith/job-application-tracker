@@ -10,7 +10,7 @@ export default {
         border: "1px solid rgba(240,240,240,0.3)",
         borderRadius: "2xl",
         content: '""',
-        bgGradient: "linear(to-b, blackAlpha.700, black)",
+        bgGradient: "linear(to-b, blackAlpha.800, black)",
         position: "absolute",
         left: 0,
         top: 0,
