@@ -20,9 +20,7 @@ jobs:
           port: 22
           script: |
             cd ~/job-application-tracker-front
-            echo "
-              REACT_APP_API_URL=https://api.jobtracker.pl
-            " > .env
+            echo REACT_APP_API_URL=https://api.jobtracker.pl > .env
 
             git fetch --all
             git reset --hard origin/master
