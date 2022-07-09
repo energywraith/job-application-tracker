@@ -14,6 +14,7 @@ const Field = forwardRef((props, ref) => {
       id={props.name}
       type={props.type}
       name={props.name}
+      defaultValue={props.defaultValue}
       onBlur={props.onBlur}
       onChange={props.onChange}
       ref={ref}

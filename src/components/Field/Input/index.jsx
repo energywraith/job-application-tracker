@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-import PropTypes from "prop-types";
 import {
   InputGroup,
   Input as InputCore,
