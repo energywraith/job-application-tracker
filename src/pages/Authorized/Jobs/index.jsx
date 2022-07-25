@@ -4,6 +4,7 @@ import { Heading } from "@chakra-ui/react";
 // import useJobs from "./useJobs";
 
 import DraggableBoard from "components/DraggableBoard";
+import useTopbar from "hooks/useTopbar";
 
 import jobsMock from "./jobs.mock";
 
@@ -20,12 +21,10 @@ const Jobs = () => {
   // const { filters, onFiltersChange, filterFields, jobsPropertyNames, jobs } =
   //   useJobs();
   const [jobs, setJobs] = useState(jobsMock);
+  useTopbar(Heading, { size: "xl", color: "white", children: 'Any updates?'})
 
   return (
-    <>
-      <Heading fontSize="3xl">Hey, any updates on your hunting?</Heading>
-      <DraggableBoard columns={jobs} onChange={setJobs} mt={12} />
-    </>
+    <DraggableBoard columns={jobs} onChange={setJobs} mt={12} />
   );
 };
 
