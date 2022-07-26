@@ -1,11 +1,18 @@
 import PropTypes from "prop-types";
-import { Box, Grid, GridItem, Divider } from "@chakra-ui/react";
+import {
+  Drawer,
+  DrawerContent,
+  Box,
+  Flex,
+  Divider,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import noop from "utils/noop";
 
-import { menuItemsShape } from "./index.shapes";
 import Topbar from "./Topbar";
 import Sidebar from "./Sidebar";
+import { menuItemsShape } from "./index.shapes";
 
 const Authorized = ({
   TopbarComponent,
@@ -15,14 +22,10 @@ const Authorized = ({
   isLoading,
   onLogout,
 }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <Grid
-      h="100vh"
-      templateColumns="auto 1fr"
-      templateRows="1fr"
-      bg="solidBlue.800"
-      position="relative"
-    >
+    <Flex h="100vh" bg="solidBlue.800" overflow="hidden">
       <Box
         width="100%"
         height="100%"
@@ -32,35 +35,57 @@ const Authorized = ({
         top="0"
         zIndex={-1}
       />
-      <GridItem
-        rowSpan={2}
-        w={260}
-        bg="blackAlpha.700"
-        overflowY="auto"
+
+      {/* DESKTOP SIDEBAR */}
+      <Sidebar
+        menuItems={menuItems}
+        isLoading={isLoading}
+        onLogout={onLogout}
+        display={{ base: "none", md: "block" }}
+        pos="relative"
         boxShadow="0 0.3px 0.3px black"
+      />
+
+      {/* MOBILE SIDEBAR */}
+      <Drawer
+        autoFocus={false}
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
+        size="full"
       >
-        <Sidebar
-          menuItems={menuItems}
-          isLoading={isLoading}
-          onLogout={onLogout}
-        />
-      </GridItem>
-      <GridItem
-        overflowY="scroll"
-        px={9}
-        pb={3}
-        height="100%"
+        <DrawerContent transition="0.1s linear" display={{ md: "none" }}>
+          <Sidebar
+            menuItems={menuItems}
+            isLoading={isLoading}
+            onLogout={onLogout}
+            onClose={onClose}
+            pos="fixed"
+            bg="blackAlpha.900"
+          />
+        </DrawerContent>
+      </Drawer>
+
+      {/* BODY */}
+      <Flex
+        direction="column"
         bg="blackAlpha.500"
+        overflow="auto"
+        flex="1"
+        px={9}
       >
         <Topbar
           onLogout={onLogout}
           TopbarComponent={TopbarComponent}
           TopbarProps={TopbarProps}
+          onOpen={onOpen}
         />
         <Divider orientation="horizontal" borderColor="whiteAlpha.300" mb={6} />
         <Box color="white">{children}</Box>
-      </GridItem>
-    </Grid>
+      </Flex>
+    </Flex>
   );
 };
 

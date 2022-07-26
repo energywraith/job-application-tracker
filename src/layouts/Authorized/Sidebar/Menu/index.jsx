@@ -1,11 +1,14 @@
 import { useMemo } from "react";
+import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
 
+import noop from "utils/noop";
 import { menuItemsShape } from "layouts/Authorized/index.shapes";
+
 import MenuItem from "./MenuItem";
 
-const Menu = ({ items }) => {
+const Menu = ({ items, closeSidebar }) => {
   const { pathname } = useLocation();
 
   const activeSection = useMemo(
@@ -22,6 +25,7 @@ const Menu = ({ items }) => {
           title={section.title}
           path={section.match}
           isActive={section.id === activeSection?.id}
+          onClick={closeSidebar}
         />
       ))}
     </Flex>
@@ -30,6 +34,11 @@ const Menu = ({ items }) => {
 
 Menu.propTypes = {
   items: menuItemsShape.isRequired,
+  closeSidebar: PropTypes.func,
+};
+
+Menu.defaultProps = {
+  closeSidebar: noop,
 };
 
 export default Menu;

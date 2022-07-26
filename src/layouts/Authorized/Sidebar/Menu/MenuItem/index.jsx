@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import { Box, Flex, Icon as ChakraIcon, Text } from "@chakra-ui/react";
 
 import { menuItemShape } from "layouts/Authorized/index.shapes";
+import noop from "utils/noop";
 
-const MenuItem = ({ Icon, title, path, isActive }) => {
+const MenuItem = ({ Icon, title, path, isActive, onClick }) => {
   const activeWrapperStyles = {
     cursor: "default",
     boxShadow: "sm",
@@ -15,7 +16,7 @@ const MenuItem = ({ Icon, title, path, isActive }) => {
     : { _hover: { opacity: 0.5 } };
 
   return (
-    <Link to={path}>
+    <Link to={path} onClick={onClick}>
       <Flex
         py={5}
         alignItems="center"
@@ -59,6 +60,7 @@ MenuItem.defaultProps = {
   title: "",
   Icon: undefined,
   match: "",
+  onClick: noop,
 };
 
 export default MenuItem;

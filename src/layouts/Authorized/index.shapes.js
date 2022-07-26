@@ -5,6 +5,7 @@ const menuItemShape = {
   title: PropTypes.string,
   Icon: PropTypes.elementType,
   match: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 const menuItemsShape = PropTypes.arrayOf(PropTypes.shape(menuItemShape));
