@@ -21,10 +21,14 @@ const Jobs = () => {
   // const { filters, onFiltersChange, filterFields, jobsPropertyNames, jobs } =
   //   useJobs();
   const [jobs, setJobs] = useState(jobsMock);
-  useTopbar(Heading, { size: "xl", color: "white", children: 'Any updates?'})
+  useTopbar(Heading, {
+    size: "lg",
+    color: "white",
+    children: "Any updates?",
+  });
 
   return (
-    <DraggableBoard columns={jobs} onChange={setJobs} mt={12} />
+    <DraggableBoard columns={jobs} onChange={setJobs} mt={3} width="100%" />
   );
 };
 

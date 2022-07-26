@@ -6,13 +6,12 @@ import { columnShape } from "./shapes";
 
 const getListStyle = (isDraggingOver) => ({
   background: isDraggingOver ? "whiteAlpha.200" : "whiteAlpha.100",
-  width: 250,
   height: "100%",
 });
 
 const Column = ({ column, index, children }) => {
   return (
-    <Box display="flex" flexDirection="column" minHeight={50}>
+    <Box display="flex" flexDirection="column" minHeight={50} flex="1">
       <Heading bg="whiteAlpha.300" fontSize={16} p={3} textAlign="center">
         {column.label}
       </Heading>

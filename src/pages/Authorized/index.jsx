@@ -13,7 +13,6 @@ const LazyJobs = React.lazy(() => import("./Jobs"));
 const Authorized = () => {
   const { hasToken } = useToken();
   const { isLoggingOut, onLogout } = useAuthorized();
-
   const { Topbar, TopbarProps } = useTopbar();
 
   return (
