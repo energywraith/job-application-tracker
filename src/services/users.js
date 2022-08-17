@@ -6,10 +6,10 @@ const useUsers = () => {
 
   const User = ({ id }) => sendQuery(`users/${id}`);
 
-  const UserCategories = ({ id }) =>
+  const UserCategories = ({ id }, fetchOnInit) =>
     useQueryWrapped({
       path: `users/${id}/categories`,
-      fetchOnInit: true,
+      fetchOnInit,
       defaultParams: {
         method: "GET",
       },

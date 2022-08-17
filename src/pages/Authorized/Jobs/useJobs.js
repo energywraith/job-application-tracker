@@ -7,7 +7,7 @@ const useJobs = () => {
   const { user } = useUser();
   const { UserCategories } = useUsers();
 
-  const { data: categoriesRaw } = UserCategories({ id: user.id });
+  const { data: categoriesRaw } = UserCategories({ id: user.id }, true);
 
   const categories = useMemo(() => {
     if (!categoriesRaw) return null;
