@@ -1,17 +1,13 @@
 import { useMemo } from "react";
-import useQueryWrapped from "hooks/useQueryWrapped";
 import useUser from "hooks/useUser";
+
+import useUsers from "services/users";
 
 const useJobs = () => {
   const { user } = useUser();
+  const { UserCategories } = useUsers();
 
-  const { data: categoriesRaw } = useQueryWrapped({
-    path: `users/${user.id}/categories`,
-    fetchOnInit: true,
-    defaultParams: {
-      method: "GET",
-    },
-  });
+  const { data: categoriesRaw } = UserCategories({ id: user.id });
 
   const categories = useMemo(() => {
     if (!categoriesRaw) return null;
