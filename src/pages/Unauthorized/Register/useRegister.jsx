@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 
-import useQuery from "hooks/useQuery";
 import useErrorsHandling from "hooks/useErrorsHandling";
+import useAuth from "services/auth";
 
 const useRegister = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const { sendQuery } = useQuery();
+  const { Register } = useAuth();
   const { handleResponseError, handleFormValidationErrors } =
     useErrorsHandling();
 
@@ -15,14 +15,11 @@ const useRegister = () => {
     const [firstName, lastName] = props.fullName.split(" ");
 
     try {
-      await sendQuery("auth/sign-up", {
-        method: "POST",
-        body: {
-          firstName,
-          lastName,
-          email: props.email,
-          password: props.password,
-        },
+      await Register({
+        firstName,
+        lastName,
+        email: props.email,
+        password: props.password,
       });
 
       toast({

@@ -2,25 +2,22 @@ import { useNavigate } from "react-router-dom";
 
 import useToken from "hooks/useToken";
 import useUser from "hooks/useUser";
-import useQuery from "hooks/useQuery";
 import useErrorsHandling from "hooks/useErrorsHandling";
+import useAuth from "services/auth";
 
 const useSignIn = () => {
   const navigate = useNavigate();
   const { setToken } = useToken();
   const { setUser } = useUser();
-  const { sendQuery } = useQuery();
+  const { SignIn } = useAuth();
   const { handleResponseError, handleFormValidationErrors } =
     useErrorsHandling();
 
   const onSignIn = async (props, methods) => {
     try {
-      const { token, expiresAt, user } = await sendQuery("auth/sign-in", {
-        method: "POST",
-        body: {
-          email: props.email,
-          password: props.password,
-        },
+      const { token, expiresAt, user } = await SignIn({
+        email: props.email,
+        password: props.password,
       });
 
       setToken({ token, expiresAt });

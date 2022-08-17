@@ -1,17 +1,19 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-import useQuery from "hooks/useQuery";
 import useErrorsHandling from "hooks/useErrorsHandling";
 import useUser from "hooks/useUser";
 import useToken from "hooks/useToken";
+import useAuth from "services/auth";
+import useUsers from "services/users";
 
 const useAuthorized = () => {
   const navigate = useNavigate();
-  const { sendQuery } = useQuery();
   const { handleResponseError } = useErrorsHandling();
   const { user, setUser, clearUser } = useUser();
   const { clearToken } = useToken();
+  const { Logout } = useAuth();
+  const { User } = useUsers();
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -20,7 +22,7 @@ const useAuthorized = () => {
 
     const fetchUser = async () => {
       try {
-        const response = await sendQuery(`users/${user.id}`);
+        const response = await User({ id: user.id });
         setUser(response);
       } catch (error) {
         handleResponseError(error);
@@ -34,9 +36,7 @@ const useAuthorized = () => {
     setIsLoggingOut(true);
 
     try {
-      await sendQuery("auth/sign-out", {
-        method: "POST",
-      });
+      await Logout();
 
       clearToken();
       clearUser();

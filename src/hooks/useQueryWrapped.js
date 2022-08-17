@@ -12,7 +12,7 @@ const useQueryWrapped = ({
   const { handleResponseError } = useErrorsHandling();
   const { sendQuery } = useQuery();
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const runQuery = async (params) => {
@@ -46,7 +46,7 @@ const useQueryWrapped = ({
     runQuery();
   }, []);
 
-  return [data, isLoading, runQuery];
+  return { data, isLoading, runQuery };
 };
 
 export default useQueryWrapped;
