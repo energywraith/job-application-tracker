@@ -69,21 +69,23 @@ const Authorized = ({
       </Drawer>
 
       {/* BODY */}
-      <Flex
-        direction="column"
-        bg="blackAlpha.500"
-        overflow="auto"
-        flex="1"
-        px={9}
-      >
-        <Topbar
-          onLogout={onLogout}
-          TopbarComponent={TopbarComponent}
-          TopbarProps={TopbarProps}
-          onOpen={onOpen}
-        />
-        <Divider orientation="horizontal" borderColor="whiteAlpha.300" mb={6} />
-        <Box color="white">{children}</Box>
+      <Flex direction="column" bg="blackAlpha.500" overflow="auto" flex="1">
+        <Flex direction="column" px={9}>
+          <Topbar
+            onLogout={onLogout}
+            TopbarComponent={TopbarComponent}
+            TopbarProps={TopbarProps}
+            onOpen={onOpen}
+          />
+          <Divider
+            orientation="horizontal"
+            borderColor="whiteAlpha.300"
+            mb={6}
+          />
+        </Flex>
+        <Box color="white" flex={1} pb={6} px={9} overflow="auto">
+          {children}
+        </Box>
       </Flex>
     </Flex>
   );

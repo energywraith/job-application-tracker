@@ -21,5 +21,24 @@ export default {
         bgColor: "whiteAlpha.100",
       },
     },
+    link: {
+      variant: 'link',
+      textColor: "whiteAlpha.800",
+    }
   },
+  lightblue: {
+    default: {
+      colorScheme: "blue"
+    },
+    solid: {
+      bgColor: "blue.300",
+      color: "solidBlue.900",
+      _hover: {
+        bgColor: "blue.400"
+      },
+      _active: {
+        bgColor: "blue.400",
+      }
+    }
+  }
 };

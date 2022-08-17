@@ -1,17 +1,27 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Box } from "@chakra-ui/react";
-import { DragDropContext } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
 import noop from "utils/noop";
 
+import DragDropContext from "./DragDropContext";
 import Row from "./Row";
 import Column from "./Column";
 import Item from "./Item";
 import { columnsShape } from "./shapes";
 
-const DraggableBoard = ({ columns, onChange, ...boxProps }) => {
+const DraggableBoard = ({
+  columns,
+  allowColumnsAdd,
+  allowColumnHeaderChange,
+  onChange,
+  ...boxProps
+}) => {
   const [columnsState, setColumnsState] = useState(columns);
   const firstRender = useRef(true);
+
+  useEffect(() => {
+    setColumnsState(columns);
+  }, [columns]);
 
   useEffect(() => {
     if (firstRender.current) {
@@ -22,91 +32,90 @@ const DraggableBoard = ({ columns, onChange, ...boxProps }) => {
     onChange(columnsState);
   }, [columnsState]);
 
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
+  const addColumn = () => {
+    const newColumn = { id: "NEW", name: "A NEW COLUMN", data: [] };
 
-    return result;
+    if (!newColumn) return;
+    setColumnsState((currentState) => [...currentState, newColumn]);
   };
 
-  const move = (source, destination, droppableSource, droppableDestination) => {
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
-    const [removed] = sourceClone.splice(droppableSource.index, 1);
+  const addItem = (column) => {
+    // Modal with new item data
+    const newItem = { id: "NEW", name: "A NEW JOB" };
 
-    destClone.splice(droppableDestination.index, 0, removed);
+    if (!newItem) return;
+    setColumnsState((currentState) => {
+      return currentState.map((columnState) => {
+        if (columnState.id === column.id) {
+          return {
+            ...columnState,
+            data: [...columnState.data, newItem],
+          };
+        }
 
-    const result = {};
-    result[droppableSource.droppableId] = sourceClone;
-    result[droppableDestination.droppableId] = destClone;
-
-    return result;
+        return columnState;
+      });
+    });
   };
 
-  const onDragEnd = (result) => {
-    const { source, destination } = result;
+  const onColumnHeaderChange = (columnId, newHeader) => {
+    setColumnsState((currentState) =>
+      currentState.map((column) => {
+        if (column.id === columnId) {
+          return {
+            ...column,
+            name: newHeader,
+          };
+        }
 
-    if (!destination) return;
-
-    const fromDroppable = +source.droppableId;
-    const toDroppable = +destination.droppableId;
-
-    if (fromDroppable === toDroppable) {
-      setColumnsState((currentState) => {
-        const items = reorder(
-          currentState[fromDroppable].data,
-          source.index,
-          destination.index
-        );
-
-        const newState = [...currentState];
-        newState[fromDroppable].data = items;
-
-        return newState;
-      });
-    } else {
-      setColumnsState((currentState) => {
-        const result = move(
-          currentState[fromDroppable].data,
-          currentState[toDroppable].data,
-          source,
-          destination
-        );
-
-        const newState = [...currentState];
-        newState[fromDroppable].data = result[fromDroppable];
-        newState[toDroppable].data = result[toDroppable];
-
-        return newState;
-      });
-    }
+        return column;
+      })
+    );
   };
 
   return (
     <Box {...boxProps}>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Row>
+      <Row>
+        <DragDropContext setColumns={setColumnsState}>
           {columnsState.map((column, columnIndex) => (
-            <Column key={columnIndex} column={column} index={columnIndex}>
+            <Column
+              key={columnIndex}
+              column={column}
+              index={columnIndex}
+              onHeaderChange={
+                allowColumnHeaderChange ? onColumnHeaderChange : null
+              }
+              onAddItemClick={addItem}
+            >
               {column.data.map((item, itemIndex) => {
                 return <Item key={item.id} item={item} index={itemIndex} />;
               })}
             </Column>
           ))}
-        </Row>
-      </DragDropContext>
+          {allowColumnsAdd && (
+            <Column
+              droppable={false}
+              column={{ name: "Add new category" }}
+              onHeadingClick={addColumn}
+            />
+          )}
+        </DragDropContext>
+      </Row>
     </Box>
   );
 };
 
 DraggableBoard.propTypes = {
   columns: columnsShape,
+  allowColumnsAdd: PropTypes.bool,
+  allowColumnHeaderChange: PropTypes.bool,
   onChange: PropTypes.func,
 };
 
 DraggableBoard.defaultProps = {
   columns: [],
+  allowColumnsAdd: false,
+  allowColumnHeaderChange: false,
   onChange: noop,
 };
 

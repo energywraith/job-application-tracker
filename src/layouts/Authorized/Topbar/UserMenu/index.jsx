@@ -1,22 +1,23 @@
 import PropTypes from "prop-types";
-import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 
 import Avatar from "components/Avatar";
+import Menu from "components/Menu";
 
 const UserMenu = ({ onLogout }) => {
+  const options = [
+    {
+      content: "Account settings",
+      disabled: true,
+    },
+    {
+      content: "Log out",
+      onClick: onLogout,
+    },
+  ];
+
   return (
-    <Menu>
-      <MenuButton>
-        <Avatar />
-      </MenuButton>
-      <MenuList>
-        <MenuItem closeOnSelect isDisabled>
-          Account settings
-        </MenuItem>
-        <MenuItem closeOnSelect onClick={onLogout}>
-          Log out
-        </MenuItem>
-      </MenuList>
+    <Menu options={options}>
+      <Avatar />
     </Menu>
   );
 };
