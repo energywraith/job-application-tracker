@@ -1,16 +1,21 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 
 import useUser from "hooks/useUser";
 import useModal from "hooks/useModal";
+import useErrorsHandling from "hooks/useErrorsHandling";
 import useUsers from "services/users";
 import createJobModal from "consts/modals/createJobModal";
 
 const useJobs = () => {
+  const modal = useModal();
   const { user } = useUser();
   const { UserCategories, PostUserCategoryJob } = useUsers();
-  const modal = useModal();
+  const { handleResponseError, handleFormValidationErrors } =
+    useErrorsHandling();
 
   const { data: categoriesRaw } = UserCategories({ id: user.id }, true);
+
+  const [isMutationLoading, setIsMutationLoading] = useState(false);
 
   const categories = useMemo(() => {
     if (!categoriesRaw) return null;
@@ -22,27 +27,43 @@ const useJobs = () => {
   }, [categoriesRaw]);
 
   const isInitiallyLoaded = useMemo(() => !!categories, [categories]);
-  const isLoading = useMemo(() => !isInitiallyLoaded, [isInitiallyLoaded]);
+  const isLoading = useMemo(
+    () => !isInitiallyLoaded || isMutationLoading,
+    [isInitiallyLoaded]
+  );
 
   const createJob = async ({ categoryId }) => {
-    try {
-      const modalResponse = await modal.open(createJobModal);
+    const modalResponse = await modal.open(
+      createJobModal({
+        onSubmit: async (values, methods) => {
+          setIsMutationLoading(true);
 
-      if (!modalResponse) return null;
+          try {
+            return await PostUserCategoryJob({
+              id: user.id,
+              categoryId,
+              name: values.name,
+              company: {
+                name: values.companyName,
+              },
+            });
+          } catch (error) {
+            methods.clearErrors();
 
-      const response = await PostUserCategoryJob({
-        id: user.id,
-        categoryId,
-        name: modalResponse.name,
-        company: {
-          name: modalResponse.companyName,
+            if (error.errorType === "ResourceExistsError") {
+              handleResponseError(error);
+            }
+
+            handleFormValidationErrors(error, methods);
+          } finally {
+            setIsMutationLoading(false);
+          }
         },
-      });
+      })
+    );
 
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+    if (!modalResponse) return null;
+    return modalResponse;
   };
 
   return { categories, createJob, isInitiallyLoaded, isLoading };

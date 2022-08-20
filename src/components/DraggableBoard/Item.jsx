@@ -23,9 +23,13 @@ const getItemStyle = (isDragging, draggableStyle) => {
   };
 };
 
-const Item = ({ item, index }) => {
+const Item = ({ item, index, isDragDisabled }) => {
   return (
-    <Draggable draggableId={`${item.id}`} index={index}>
+    <Draggable
+      draggableId={`${item.id}`}
+      index={index}
+      isDragDisabled={isDragDisabled}
+    >
       {(provided, snapshot) => (
         <Box
           ref={provided.innerRef}
@@ -43,6 +47,11 @@ const Item = ({ item, index }) => {
 Item.propTypes = {
   item: itemShape.isRequired,
   index: PropTypes.number.isRequired,
+  isDragDisabled: PropTypes.bool,
+};
+
+Item.defaultProps = {
+  isDragDisabled: false,
 };
 
 export default Item;

@@ -2,16 +2,23 @@ import Form from "components/Form";
 import fields from "./index.fields";
 import validation from "./index.validation";
 
-const createJobModal = {
+const createJobModal = (props) => ({
   header: "Add Job",
-  body: ({ resolve }) => (
+  body: ({ resolve, close }) => (
     <Form
       fields={fields}
       validationSchema={validation}
-      onSubmit={resolve}
+      onSubmit={async (values, methods) => {
+        const response = await props.onSubmit(values, methods);
+
+        if (response) {
+          resolve(response);
+          close();
+        }
+      }}
       submitText="Add"
     />
   ),
-};
+});
 
 export default createJobModal;
