@@ -1,26 +1,17 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useDisclosure } from "@chakra-ui/react";
 
-import {
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalCloseButton,
-} from "@chakra-ui/react";
+import ModalComponent from "components/Modal";
 
-import reducer from "./reducer";
-import { actions } from "./reducer";
-import { useEffect } from "react";
+import reducer, { actions } from "./reducer";
 
 const initialState = {
   isOpen: false,
   header: null,
   body: null,
   footer: null,
+  promiseResolvers: {},
 };
 
 const ModalContext = createContext();
@@ -50,21 +41,17 @@ const ModalProvider = ({ children }) => {
   return (
     <ModalContext.Provider value={value}>
       {children}
-      <Modal
+      <ModalComponent
         isOpen={isOpen}
         onOpen={() => setIsOpen(true)}
-        onClose={() => setIsOpen(false)}
-        closeOnOverlayClick
-        closeOnEsc
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{state.header}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>{state.body}</ModalBody>
-          <ModalFooter>{state.footer}</ModalFooter>
-        </ModalContent>
-      </Modal>
+        onClose={() => {
+          setIsOpen(false);
+          state.promiseResolvers?.resolve(false);
+        }}
+        header={state.header}
+        body={state.body}
+        footer={state.footer}
+      />
     </ModalContext.Provider>
   );
 };

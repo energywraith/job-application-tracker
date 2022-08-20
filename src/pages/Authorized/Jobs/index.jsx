@@ -5,7 +5,7 @@ import DraggableBoard from "components/DraggableBoard";
 import useJobs from "./useJobs";
 
 const Jobs = () => {
-  const { categories, isInitiallyLoaded } = useJobs();
+  const { categories, createJob, isInitiallyLoaded, isLoading } = useJobs();
 
   useTopbar(Heading, {
     size: "lg",
@@ -17,8 +17,9 @@ const Jobs = () => {
     isInitiallyLoaded && (
       <DraggableBoard
         columns={categories}
-        onChange={(e) => console.log(e)}
+        preventActions={isLoading}
         height="100%"
+        onItemAdd={createJob}
         allowColumnsAdd
         allowColumnHeaderChange
       />

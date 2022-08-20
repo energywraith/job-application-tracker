@@ -15,7 +15,16 @@ const useUsers = () => {
       },
     });
 
-  return { User, UserCategories };
+  const PostUserCategoryJob = ({ id, categoryId, name, company }) =>
+    sendQuery(`users/${id}/categories/${categoryId}/jobs`, {
+      method: "POST",
+      body: {
+        name,
+        company,
+      },
+    });
+
+  return { User, UserCategories, PostUserCategoryJob };
 };
 
 export default useUsers;

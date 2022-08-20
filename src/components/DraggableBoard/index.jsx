@@ -13,7 +13,9 @@ const DraggableBoard = ({
   columns,
   allowColumnsAdd,
   allowColumnHeaderChange,
+  preventActions,
   onChange,
+  onItemAdd,
   ...boxProps
 }) => {
   const [columnsState, setColumnsState] = useState(columns);
@@ -39,11 +41,15 @@ const DraggableBoard = ({
     setColumnsState((currentState) => [...currentState, newColumn]);
   };
 
-  const addItem = (column) => {
-    // Modal with new item data
-    const newItem = { id: "NEW", name: "A NEW JOB" };
+  const addItem = async (column) => {
+    const newItem = await onItemAdd({
+      categoryId: column.id,
+    });
+
+    console.log(newItem);
 
     if (!newItem) return;
+
     setColumnsState((currentState) => {
       return currentState.map((columnState) => {
         if (columnState.id === column.id) {
@@ -88,7 +94,14 @@ const DraggableBoard = ({
               onAddItemClick={addItem}
             >
               {column.data.map((item, itemIndex) => {
-                return <Item key={item.id} item={item} index={itemIndex} />;
+                return (
+                  <Item
+                    key={item.id}
+                    item={item}
+                    index={itemIndex}
+                    isDragDisabled={preventActions}
+                  />
+                );
               })}
             </Column>
           ))}
@@ -109,6 +122,7 @@ DraggableBoard.propTypes = {
   columns: columnsShape,
   allowColumnsAdd: PropTypes.bool,
   allowColumnHeaderChange: PropTypes.bool,
+  preventActions: PropTypes.bool,
   onChange: PropTypes.func,
 };
 
@@ -116,6 +130,7 @@ DraggableBoard.defaultProps = {
   columns: [],
   allowColumnsAdd: false,
   allowColumnHeaderChange: false,
+  preventActions: false,
   onChange: noop,
 };
 

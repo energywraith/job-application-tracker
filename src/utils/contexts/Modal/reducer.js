@@ -17,6 +17,12 @@ const reducer = (state, action) => {
         ...action.payload,
       };
     }
+    case actions.SET_PROMISE_RESOLVERS: {
+      return {
+        ...state,
+        promiseResolvers: action.payload,
+      };
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }

@@ -22,12 +22,26 @@ const useModal = () => {
       payload,
     });
 
-  const open = ({ header, body, footer }) => {
-    setContent({ header, body, footer });
-    setIsOpen(true);
-  };
+  const setPromiseResolvers = (payload) =>
+    context.dispatch({
+      type: actions.SET_PROMISE_RESOLVERS,
+      payload,
+    });
 
   const close = () => setIsOpen(false);
+
+  const open = async ({ header, body, footer }) => {
+    return new Promise((resolve, reject) => {
+      setContent({
+        header,
+        body:
+          typeof body === "function" ? body({ resolve, reject, close }) : body,
+        footer: footer,
+      });
+      setPromiseResolvers({ resolve, reject });
+      setIsOpen(true);
+    });
+  };
 
   return {
     open,
