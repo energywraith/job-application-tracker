@@ -35,6 +35,7 @@ const Column = ({
       width={300}
       maxWidth={300}
       pr={9}
+      pb={9}
     >
       <ColumnHeading
         onClick={onHeadingClick}

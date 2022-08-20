@@ -15,6 +15,7 @@ const DraggableBoard = ({
   allowColumnHeaderChange,
   preventActions,
   onChange,
+  onColumnAdd,
   onItemAdd,
   ...boxProps
 }) => {
@@ -33,36 +34,6 @@ const DraggableBoard = ({
 
     onChange(columnsState);
   }, [columnsState]);
-
-  const addColumn = () => {
-    const newColumn = { id: "NEW", name: "A NEW COLUMN", data: [] };
-
-    if (!newColumn) return;
-    setColumnsState((currentState) => [...currentState, newColumn]);
-  };
-
-  const addItem = async (column) => {
-    const newItem = await onItemAdd({
-      categoryId: column.id,
-    });
-
-    console.log(newItem);
-
-    if (!newItem) return;
-
-    setColumnsState((currentState) => {
-      return currentState.map((columnState) => {
-        if (columnState.id === column.id) {
-          return {
-            ...columnState,
-            data: [...columnState.data, newItem],
-          };
-        }
-
-        return columnState;
-      });
-    });
-  };
 
   const onColumnHeaderChange = (columnId, newHeader) => {
     setColumnsState((currentState) =>
@@ -91,7 +62,11 @@ const DraggableBoard = ({
               onHeaderChange={
                 allowColumnHeaderChange ? onColumnHeaderChange : null
               }
-              onAddItemClick={addItem}
+              onAddItemClick={() =>
+                onItemAdd({
+                  categoryId: column.id,
+                })
+              }
             >
               {column.data.map((item, itemIndex) => {
                 return (
@@ -109,7 +84,7 @@ const DraggableBoard = ({
             <Column
               droppable={false}
               column={{ name: "Add new category" }}
-              onHeadingClick={addColumn}
+              onHeadingClick={onColumnAdd}
             />
           )}
         </DragDropContext>
