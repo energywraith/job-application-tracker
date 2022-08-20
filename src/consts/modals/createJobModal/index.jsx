@@ -2,7 +2,7 @@ import Form from "components/Form";
 import fields from "./index.fields";
 import validation from "./index.validation";
 
-const CreateJobModal = {
+const createJobModal = {
   header: "Add Job",
   body: ({ resolve }) => (
     <Form
@@ -14,4 +14,4 @@ const CreateJobModal = {
   ),
 };
 
-export default CreateJobModal;
+export default createJobModal;
