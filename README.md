@@ -4,7 +4,7 @@ Looking for a job can be really problematic when you apply to several companies 
 
 The API for the project is implemented in [another repo](https://github.com/nekiro/job-application-tracker) by a back-end developer :)
 
-The app is deployed at the link: [jobtracker.pl](https://jobtracker.pl/), feel free to use it and leave feedback!
+Feel free to use it and leave feedback!
 
 ## Run the project locally
 
